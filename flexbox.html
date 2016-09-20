@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/dataTables.bootstrap.css">
+  <link rel="stylesheet" href="css/c3.css">
+
+  <script src="js/vendor/d3.js"></script>
+  <script src="js/vendor/d3-queue.js"></script>
+  <script src="js/vendor/c3.js"></script>
+
+	<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+  <script src="js/vendor/jquery.js"></script>
+  <script src="js/vendor/jquery.dataTables.js"></script>
+  <script src="js/vendor/dataTables.bootstrap.js"></script>
+
+	<title>Flexbox Layout</title>
+	<link rel="stylesheet" href="css/page.css">
+	<link rel="stylesheet" href="css/flexbox.css">
+</head>
+<body>
+	<div class="container">
+    <div class="item-0 item">
+      Item 0
+      <p>[Title]</p>
+    </div>
+		<div class="item-1 item">
+			Item 1
+      <p>[Header Content]</p>
+		</div>
+    <div class="item-2 item">
+			Item 2
+      <p>[Header Sidebar Content]</p>
+		</div>
+		<div class="item-3 item">
+      Item 3
+      <p>[Main Content]</p>
+			<h3>Residential Pipeline Size Distribution by Neighborhood</h3>
+      <p>
+        <small>Grouped by size of # of units in project<br/>
+        This is a recreation of Figure 1 from the 2014 Q3 report</small>
+      </p>
+			<div id="barchart"></div>
+		</div>
+		<div class="item-4 item">
+			Item 4
+			<p>[Sidebar Content]</p>
+		</div>
+    <div class="item-5 item">
+      Item 5
+      <p>[Footer Content]</p>
+    </div>
+	</div>
+	<script src="js/barchart.js" charset="utf-8"></script>
+	<script src="js/dashboard.js" charset="utf-8"></script>
+	<script src="js/Array.map.js"></script>
+</body>
+</html>

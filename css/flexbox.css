@@ -1,0 +1,38 @@
+/* =================================
+  Flexbox
+==================================== */
+
+.container {
+	display: flex;
+	flex-flow: row;
+	flex-wrap: wrap; /* for multi-line layout */
+	/*-webkit-justify-content: center;
+	-ms-flex-pack: center;
+	justify-content: center;*/
+}
+
+/* flex: grow shrink basis */
+.item {
+	display: flex;
+	flex-flow: column;
+	/*justify-content: center;*/
+	/*justify-content: flex-end;*/
+}
+.item-0 {
+	flex: 5 1 100%;
+}
+.item-1 {
+	flex: 2 2 50%;
+}
+.item-2 {
+	flex: 3;
+}
+.item-3 {
+	flex: 2 2 50%;
+}
+.item-4 {
+	flex: 3;
+}
+.item-5 {
+	flex: 5 1 100%;
+}
