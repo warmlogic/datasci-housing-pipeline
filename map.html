@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Map</title>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script src='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.js'></script>
+  <link href='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.css' rel='stylesheet' />
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="http://d3js.org/queue.v1.min.js"></script>
+
+  <style>
+    body { margin:0; position:fixed; top:0; right:0; bottom:0; left:0; }
+    #map { position:absolute; top:0; bottom:0; width:100%; }
+    #menu { position:fixed; z-index:1; bottom:0; right:0; 
+            width:10em; height:10em; background-color:white;
+            border-radius: 2%; border:rgba(100,100,100,.75) solid 1px;
+            display:inline-block; line-height:1.5em;
+            margin:0 3em 5em 0; padding:.5em;}
+
+  </style>
+
+</head>
+
+<body>
+  <div id='map'></div>
+
+  <div id='menu'><center>
+    Display Map<br><br>
+    <form action="">
+      <input type="radio" name="map_data" value="zoning">Zoning<br>
+      <input type="radio" name="map_data" value="census">Neighborhood<br>
+      <!-- <input type="radio" name="map_data" value="citylots">City Lots<br> -->
+      <input type="radio" name="map_data" value="other">Other<br>
+    </form>
+  </center></div>
+
+  <script> // TODO: transfer to .js 
+  L.mapbox.accessToken = 'pk.eyJ1IjoiaWZlYXJjb21waWxlcmVycm9ycyIsImEiOiJjaXR6MXEwbHYwYjVnMnludnBuOGY0ZzNpIn0.Uhem8gvmgHnOhV55zvuYOQ';
+  // Create a map in the div #map
+  var map = L.mapbox.map('map', 'mapbox.streets').setView([37.76,-122.44], 12);
+
+  var popup = new L.Popup({ autoPan: false });
+
+  $("input").click(function(i){
+    $("svg.leaflet-zoom-animated").empty();
+
+    var data;
+    var color;
+    var value = i.target.value;
+    switch(value) {
+      case "zoning":
+        data = "Zoning";
+        color = "#FFE92E";
+        break;
+      case "census":
+        data = "Analysis\ Neighborhoods\ -\ census\ tracts\ assigned\ to\ neighborhoods";
+        color = "steelblue";
+        break;
+      case "citylots":
+        data = "citylots";
+        color = "red";
+        break;
+      case "other":
+        data = "Analysis Neighborhoods";
+        color = "purple";
+        break;
+      default: break;
+    }
+    displayMap(data, value, color);
+  });
+
+  /* 
+   * parse map w/ jquery bc too lazy to manually convert
+   * Zoning.geojson to .js file and initialize that raw data to a variable
+   */
+  function displayMap(filename, valuename, color) {
+    $.getJSON("geojson/"+filename+".geojson", function(data, error) {
+
+      if(error != "success") console.log(error);
+
+      var geojson = L.geoJson(data, {
+        style: getStyle,
+        onEachFeature: onEachFeature
+      }).addTo(map);
+
+      function getStyle(feature) {
+        if(filename == 'citylots') {
+          return {
+            opacity: 0.15,
+            fillOpacity: 0.7,
+            fillColor: 'red'
+          };
+        } else {
+          return {
+            weight: 2,
+            opacity: 0.15,
+            color: 'black',
+            fillOpacity: 0.7,
+            fillColor: color
+          };
+        }
+      }
+
+      function onEachFeature(feature, layer) {
+        layer.on({
+          mousemove: mousemove,
+          mouseout: mouseout,
+          click: zoomToFeature,
+        });
+      }
+
+      var closeTooltip;
+
+      function mousemove(e) {
+        var layer = e.target;
+        var content;
+
+        // set popup content based on geojson data
+        switch(valuename) {
+          case "zoning":
+            content = '<div class="marker-title">' + layer.feature.properties.DISTRICTNA + '</div>' +
+            'GEN: ' + layer.feature.properties.GEN + '\t' + 
+            'ZONING: ' + layer.feature.properties.ZONING; break;
+          case "census":
+            content = '<div class="marker-title">' + layer.feature.properties.nhood + '</div>' + 
+            'tractce10: ' + layer.feature.properties.tractce10; break;
+          case "other":
+            content = '<div class="marker-title">' + layer.feature.properties.nhood + '</div>'; break;
+          default:
+            break;
+        }
+
+        popup.setLatLng(e.latlng);
+        popup.setContent(content);
+
+        if (!popup._map) popup.openOn(map);
+          window.clearTimeout(closeTooltip);
+
+        // highlight feature
+        layer.setStyle({
+          weight: 3,
+          opacity: 0.3,
+          fillOpacity: 0.9
+        });
+
+        if (!L.Browser.ie && !L.Browser.opera) {
+          layer.bringToFront();
+        }
+      }
+
+      function mouseout(e) {
+        geojson.resetStyle(e.target);
+        closeTooltip = window.setTimeout(function() {
+          map.closePopup();
+        }, 100);
+      }
+
+      function zoomToFeature(e) {
+        map.fitBounds(e.target.getBounds());
+      }
+    }); // end $.getJSON()
+  } // end displayMap()
+  </script>
+</body>
+
+</html>
