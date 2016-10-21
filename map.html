@@ -33,7 +33,7 @@
     <form action="">
       <input type="radio" name="map_data" value="zoning">Zoning<br>
       <input type="radio" name="map_data" value="census">Neighborhood<br>
-      <!-- <input type="radio" name="map_data" value="citylots">City Lots<br> -->
+      <input type="radio" name="map_data" value="citylots">City Lots<br>
       <input type="radio" name="map_data" value="other">Other<br>
     </form>
   </center></div>
@@ -63,6 +63,7 @@
       case "citylots":
         data = "citylots";
         color = "red";
+        console.log('data '+data);
         break;
       case "other":
         data = "Analysis Neighborhoods";
