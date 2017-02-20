@@ -3,7 +3,7 @@ key,value
 "APN",apn
 "LANDUSE",landuse
 "BESTSTAT",best_stat
-"BESTDATE",bestdate
+"BESTDATE",best_date
 "NAMEADDR",nameaddr
 "Alias",alias
 "CASENO",caseno
