@@ -5,7 +5,7 @@ key,value
 "UNITS",units
 "UNITSNET",unitsnet
 "BESTDATE",bestdate
-"BESTSTAT",beststat
+"BESTSTAT",best_stat
 "EntitlementStatus",entitlementstatus
 "CASENO",caseno
 "DESCRIPT",descript
