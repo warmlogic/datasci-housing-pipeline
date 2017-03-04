@@ -129,6 +129,9 @@
           case "census":
             content = '<div class="marker-title">' + layer.feature.properties.nhood + '</div>' + 
             'tractce10: ' + layer.feature.properties.tractce10; break;
+          case "citylots":
+            content = '<div class="marker-title">' + layer.feature.properties.STREET + '</div>';
+            break;
           case "other":
             content = '<div class="marker-title">' + layer.feature.properties.nhood + '</div>'; break;
           default:
